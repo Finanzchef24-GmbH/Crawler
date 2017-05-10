@@ -20,6 +20,8 @@ sitemap.fetch('http://www.finanzchef24.de/sitemap.xml').then(function(sites) {
                 if (error) {
                     console.log('Fehler beim lesen der Seiteninhalte bei der Seite: ', site, " - ", error);
                 } else {
+                    // Test
+
                     //Tags Filtern
                     $ = cheerio.load(body);
                     var title = $('title').text();
