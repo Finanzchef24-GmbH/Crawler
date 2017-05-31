@@ -57,12 +57,13 @@ process.on("SIGINT", function () {
 var run = function() {
     if(argv.e == '.xlsx') console.log(".xlsx wird zzt. noch nicht unterstützt, stattdessen wurde .csv als Standard verwendet.");
 
-    var writer = csvWriter({ headers: ["URL", "TITLE", "DESCRIPTION"]});
+    var writer = csvWriter({ headers: ["URL", "TITLE", "DESCRIPTION", "H1 TAG", "META ROBOTS"]});
     writer.pipe(fs.createWriteStream(argv.f + '.csv'));
 
     Promise
         .resolve(sitemapper('http://www.finanzchef24.de/sitemap.xml'))
         .then(function(sites) {
+            //sites.sites = sites.sites.slice(0, 10); //Erste 10 Seiten nur verarbeiten zum Testen
             return sitesProcessor(sites, writer);
         })
         .finally(() => {writer.end(); console.log("\rFertig. Programm wurde beendet.")})
