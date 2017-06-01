@@ -14,27 +14,30 @@ var td = [
     {a: {counter: -1}, b: {sites: {length: 0}}}
 ];
 
+var out = logger.__get__("process.stdout.write");
+var writeSpy = sinon.spy(out);
+logger.__set__("process.stdout.write", writeSpy);
+
+//console.log Variante auskommentiert
+/*
 var consoleLogModded = {
     log: sinon.stub()
 }
 logger.__set__("console", consoleLogModded);
-
-//SPY VARIANTE AUSKOMMENTIERT
-/*var l = logger.__get__("console.log");
-var lSpy = sinon.spy(l);
-logger.__set__('console.log', lSpy);*/
+*/
 
 //Teststart
 describe('LoggerSpec', function () {
     describe('#logger()', function () {
         beforeEach(function() {
-            consoleLogModded.log.reset();
+            writeSpy.reset();
         });
         td.forEach(function(item) {
             it(`logger console loggt den Verlauf richtig für Parameter a: ${item.a.counter} und b: ${item.b.sites.length}`, function() {
                 logger(item.a, item.b);
-                expect(consoleLogModded.log.firstCall.args[0]).to.be.a("string");
-                expect(consoleLogModded.log.firstCall.args[0].includes((100 * item.a.counter/item.b.sites.length).toFixed(1))).to.be.true;
+                expect(writeSpy.firstCall.args[0]).to.be.a("string");
+                expect(writeSpy.firstCall.args[0].includes((100 * item.a.counter/item.b.sites.length).toFixed(1))).to.be.true;
+
             })
         })
     });

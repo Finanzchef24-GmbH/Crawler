@@ -2,8 +2,10 @@ var assert = require('assert');
 var rewire = require('rewire');
 var sinon = require('sinon');
 var cheeriWri = rewire('../CheeriWri');
+var chai = require('chai');
+var expect = chai.expect;
 
-// Beim Parameterübergabe -> Dependency Injection
+// Beim Parameterübergabe -> heißt Dependency Injection
 //MOCK & SPY writer.write
 var mockedWrite = function (arr) {
     //console.log(arr[0]);
@@ -21,7 +23,7 @@ cheeriWri.__set__('cheerio.load', chSpy);
 //Eingabedaten
 var testResp = 'https://www.finanzchef24.de';
 var testBody = '<meta name="description" content="Finanzchef24 ist Deutschlands großer digitaler Versicherungsmakler für Unternehmer &amp; Selbstständige. Jetzt Tarifvergleich &amp; unabhängige Beratung testen!" />' +
-    '<title>Finanzchef24 | Unternehmer? Aber sicher!</title>';
+    '<title>Finanzchef24 | Unternehmer? Aber sicher!</title>' + '<meta name="robots" content="follow, index" />' + '<h1>h1 testtext</h1>';
 
 var testData = [
     {
@@ -31,6 +33,15 @@ var testData = [
     },
     testBody
 ];
+
+//Erwartet
+var writePara = [ 'https://www.finanzchef24.de',
+    'Finanzchef24 | Unternehmer? Aber sicher!',
+    'Finanzchef24 ist Deutschlands großer digitaler Versicherungsmakler für Unternehmer & Selbstständige. Jetzt Tarifvergleich & unabhängige Beratung testen!',
+    'h1 testtext',
+    'follow, index' ];
+
+var cheerioPara = '<meta name="description" content="Finanzchef24 ist Deutschlands großer digitaler Versicherungsmakler für Unternehmer &amp; Selbstständige. Jetzt Tarifvergleich &amp; unabhängige Beratung testen!" /><title>Finanzchef24 | Unternehmer? Aber sicher!</title><meta name="robots" content="follow, index" /><h1>h1 testtext</h1>';
 
 //Teststart
 describe('CheeriWriSpec', function () {
@@ -42,12 +53,14 @@ describe('CheeriWriSpec', function () {
         it('writer.write einmal aufgerufen mit den richtigen Parametern', function () {
             cheeriWri(testData, writer);
             assert.equal(1, writeSpy.callCount);
-            console.log(writeSpy.firstCall.args[0]);
+            expect(writeSpy.firstCall.args[0]).to.be.a("array");
+            expect(writeSpy.firstCall.args[0]).to.eql(writePara);
         });
         it('cheerio.load einmal aufgerufen mit den richtigen Parametern', function () {
             cheeriWri(testData, writer);
             assert.equal(1, chSpy.callCount);
-            console.log(chSpy.firstCall.args[0]);
+            expect(chSpy.firstCall.args[0]).to.be.a("string");
+            assert.equal(cheerioPara, chSpy.firstCall.args[0]);
         });
     });
 });
@@ -65,7 +78,7 @@ describe('CheeriWriSpec', function () {
 
 
 
-
+/// Hilfestellung für mich
 /*var chMock = {
  load: function () {
  console.log("nichts machen");

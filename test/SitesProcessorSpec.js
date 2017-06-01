@@ -24,10 +24,15 @@ var reqModded = {
 //Promise.map, Promise.each modifiziert
 var promModded = {
     map: reqModded.requester,
-    each: () => console.log("Promise.each test")//sinon.stub().returns(Promise.resolve([{body: 'body1'}, {body: 'body2'}, {body: 'body3'}]))
 }
 sitesprocessor.__set__(reqModded);
 sitesprocessor.__set__("Promise", promModded);
+
+//console.log wird stillgelegt für Tests
+var consoleLogModded = {
+    log: sinon.stub()
+}
+sitesprocessor.__set__("console", consoleLogModded);
 
 //Teststart
 describe('SitesProcessorSpec', function () {
@@ -40,23 +45,12 @@ describe('SitesProcessorSpec', function () {
                 expect(result).to.eql([ { body: 'body1' }, { body: 'body2' }, { body: 'body3' } ]);
             })
         });
-        it('Promise.map(...) gecallt mit richtigen parametern und returnwert', function () {
+        it('Promise.map(...) gecallt mit richtigen parametern', function () {
             return sitesprocessor(sites).then((result) => {
                 expect(promModded.map.called).to.be.true;
                 expect(promModded.map.firstCall.args[0]).to.be.a("array");
                 expect(promModded.map.firstCall.args[1]).to.be.a("function");
                 expect(promModded.map.firstCall.args[2]).to.eql({concurrency: 10});
-                //console .log(promModded.map.firstCall);
-                //expect(result).to.eql([ { body: 'body1' }, { body: 'body2' }, { body: 'body3' } ]);
-                //TO DO -> returnwert von map testen
-            })
-        });
-        //.each(...) wird wahrscheinlich nicht ersetzt
-        it('Promise.each(...) gecallt mit richtigen parametern und returnwert', function (done) {
-            return sitesprocessor(sites).then((result) => {
-                expect(promModded.each.called).to.be.true;
-                //console.log(promModded.each.callCount);
-                // TO DO
             })
         });
         it('cheeriWri(...) gecallt mit richtigen parametern', function () {
