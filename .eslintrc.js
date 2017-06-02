@@ -1,5 +1,5 @@
 module.exports = {
-    "extends": "fc24",
+    "extends": "@finanzchef24gmbh/eslint-config-fc24",
     "plugins": [
         "standard",
         "promise"

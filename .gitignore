@@ -1,4 +1,3 @@
 .idea/
-node_modules/*
-!node_modules/eslint-config-fc24/
 *.csv
+node_modules/
