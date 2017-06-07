@@ -29,11 +29,17 @@ Standardablauf, schreibt Ergebnis in ausgabe.csv vier-spaltig
 node src/index.js 
 ```
 
-Optionale Parameter:
+Optionale Parameter
 
 * `--help, -h`: Hilfe ausgeben
 * `--extension, -e`: Dateiendung bestimmen [Möglichkeiten: '.csv', '.xlsx'][Standard: '.csv']('.xlsx' wird zur zeit nicht unterstützt)
 * `--file, -f`: Dateiname bestimmen [Standard: 'ausgabe']
+
+Testen
+
+```
+npm test
+```
 
 [npm-url]: https://npmjs.org/package/node-version-check
 [npm-image]: https://img.shields.io/npm/v/node-version-check.svg
