@@ -41,10 +41,8 @@ npm test
 
 [travis-url]: https://travis-ci.org/Finanzchef24-GmbH/Crawler
 [travis-image]: https://travis-ci.org/Finanzchef24-GmbH/Crawler.svg?branch=master
-[appveyor-url]: https://ci.appveyor.com/project/SimenB/node-version-check
-[appveyor-image]: https://ci.appveyor.com/api/projects/status/leljtwqeg3x55v22/branch/master?svg=true
 [david-url]: https://david-dm.org/Finanzchef24-GmbH/Crawler
 [david-image]: https://david-dm.org/Finanzchef24-GmbH/Crawler/status.svg
 [david-dev-url]: https://david-dm.org/Finanzchef24-GmbH/Crawler?type=dev
-[david-dev-image]: https://img.shields.io/david/dev/SimenB/node-version-check.svg
+[david-dev-image]: https://david-dm.org/Finanzchef24-GmbH/Crawler/dev-status.svg
 
