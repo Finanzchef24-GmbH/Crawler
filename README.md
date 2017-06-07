@@ -44,5 +44,7 @@ npm test
 [appveyor-url]: https://ci.appveyor.com/project/SimenB/node-version-check
 [appveyor-image]: https://ci.appveyor.com/api/projects/status/leljtwqeg3x55v22/branch/master?svg=true
 [david-url]: https://david-dm.org/Finanzchef24-GmbH/Crawler
+[david-image]: https://david-dm.org/Finanzchef24-GmbH/Crawler/status.svg
 [david-dev-url]: https://david-dm.org/Finanzchef24-GmbH/Crawler?type=dev
 [david-dev-image]: https://img.shields.io/david/dev/SimenB/node-version-check.svg
+
