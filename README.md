@@ -1,4 +1,4 @@
-# Marketing-Crawler-Tool
+# Marketing-Crawler-Tool [FC-5451]
 
 [![NPM Version][npm-image]][npm-url]
 [![Linux & Mac Build Status][travis-image]][travis-url]
@@ -15,6 +15,13 @@ Das Tool zieht pro Sitemap Seite folgende Quellcode-Inhalte und speichert es in 
 ```
 
 ## Benutzung
+
+Installation
+
+```
+npm install --production --no-optional
+npm rebuild
+```
 
 Standardablauf, schreibt Ergebnis in ausgabe.csv vier-spaltig
 
