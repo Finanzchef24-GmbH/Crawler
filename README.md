@@ -4,7 +4,7 @@
 [![Dependency Status][david-image]][david-url]
 [![Dev Dependency Status][david-dev-image]][david-dev-url]
 
-Das Tool zieht pro Sitemap Seite folgende Quellcode-Inhalte und speichert es in einer CSV-Datei:
+Das Tool zieht pro Unterseite von https://www.finanzchef24.de/ folgende Quellcode-Inhalte und speichert es in einer CSV-Datei:
 ```html
 <title> </title>
 <meta name="description" content=" " />
