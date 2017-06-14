@@ -1,12 +1,4 @@
-// imports
-const cheerio = require('cheerio');
-
-module.exports = function (content, writer) {
-    const response = content[0];
-    const body = content[1];
-    const $ = cheerio.load(body);
-
-    const href = response.request.href;
+module.exports = function (href, writer, $) {
     const title = $('title').text();
     const desc = $('meta[name="description"]').attr('content');
     const robots = $('meta[name="robots"]').attr('content');

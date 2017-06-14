@@ -8,17 +8,28 @@ const expect = chai.expect;
 // Beim Parameterübergabe -> heißt Dependency Injection
 // MOCK & SPY writer.write
 function mockedWrite () {
-    // ...
 }
 
 const writer = {write: mockedWrite};
 const writeSpy = sinon.spy(writer, 'write');
 
-// SPY cheerio.load
-const ch = cheeriWri.__get__('cheerio.load');
-const chSpy = sinon.spy(ch);
+// Erwartet
+const writePara = ['https://www.finanzchef24.de',
+    'Finanzchef24 | Unternehmer? Aber sicher!',
+    'Finanzchef24 ist Deutschlands großer digitaler Versicherungsmakler für Unternehmer & Selbstständige. ' +
+    'Jetzt Tarifvergleich & unabhängige Beratung testen!',
+    'h1 testtext',
+    'follow, index'];
 
-cheeriWri.__set__('cheerio.load', chSpy);
+const chSubFunc = {
+    text: sinon.stub(),
+    attr: sinon.stub(),
+    each: function () {
+        writer.write(writePara);
+    }
+};
+
+let mockedCheerio = sinon.stub().returns(chSubFunc);
 
 // Eingabedaten
 const testResp = 'https://www.finanzchef24.de';
@@ -37,37 +48,28 @@ const testData = [
     testBody
 ];
 
-// Erwartet
-const writePara = ['https://www.finanzchef24.de',
-    'Finanzchef24 | Unternehmer? Aber sicher!',
-    'Finanzchef24 ist Deutschlands großer digitaler Versicherungsmakler für Unternehmer & Selbstständige. ' +
-    'Jetzt Tarifvergleich & unabhängige Beratung testen!',
-    'h1 testtext',
-    'follow, index'];
-
-const cheerioPara = '<meta name="description" content="Finanzchef24 ist Deutschlands großer ' +
-    'digitaler Versicherungsmakler für Unternehmer &amp; Selbstständige. Jetzt Tarifvergleich &amp; ' +
-    'unabhängige Beratung testen!" /><title>Finanzchef24 | Unternehmer? Aber sicher!</title>' +
-    '<meta name="robots" content="follow, index" /><h1>h1 testtext</h1>';
-
 // Teststart
 describe('CheeriWriSpec', function () {
     describe('#cheeriWri()', function () {
         beforeEach(function() {
-            chSpy.reset();
             writeSpy.reset();
+            mockedCheerio.reset();
+            mockedCheerio = sinon.stub().returns(chSubFunc);
         });
         it('writer.write einmal aufgerufen mit den richtigen Parametern', function () {
-            cheeriWri(testData, writer);
+            cheeriWri(testData, writer, mockedCheerio);
             assert.equal(1, writeSpy.callCount);
             expect(writeSpy.firstCall.args[0]).to.be.a('array');
             expect(writeSpy.firstCall.args[0]).to.eql(writePara);
         });
-        it('cheerio.load einmal aufgerufen mit den richtigen Parametern', function () {
-            cheeriWri(testData, writer);
-            assert.equal(1, chSpy.callCount);
-            expect(chSpy.firstCall.args[0]).to.be.a('string');
-            assert.equal(cheerioPara, chSpy.firstCall.args[0]);
+        it('$ aufgerufen mit den richtigen Parametern', function () {
+            cheeriWri(testData, writer, mockedCheerio);
+            assert.equal(4, mockedCheerio.callCount);
+            expect(mockedCheerio.firstCall.args[0]).to.be.a('string');
+            assert.equal('title', mockedCheerio.firstCall.args[0]);
+            assert.equal('meta[name="description"]', mockedCheerio.secondCall.args[0]);
+            assert.equal('meta[name="robots"]', mockedCheerio.thirdCall.args[0]);
+            assert.equal('h1', mockedCheerio.getCall(3).args[0]);
         });
     });
 });

@@ -11,6 +11,12 @@ const consoleModded = {
 
 catcher.__set__('console', consoleModded);
 
+const processExitModded = {
+    exit: sinon.stub()
+};
+
+catcher.__set__('process', processExitModded);
+
 describe('CatcherSpec', function () {
     describe('#catcher()', function () {
         beforeEach(function() {

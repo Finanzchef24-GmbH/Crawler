@@ -24,7 +24,7 @@ npm rebuild
 Standardablauf, schreibt Ergebnis in ausgabe.csv vier-spaltig
 
 ```
-node src/index.js 
+node src/index.js
 ```
 
 Optionale Parameter

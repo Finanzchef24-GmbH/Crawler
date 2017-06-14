@@ -10,6 +10,6 @@ module.exports = {
     },
     "rules": {
         "strict": [2, "never"],
-        "no-unused-expressions": 0,
+        "no-unused-expressions": 0
     }
 };
