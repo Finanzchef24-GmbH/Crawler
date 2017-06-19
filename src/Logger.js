@@ -9,7 +9,7 @@ module.exports = function (counter, lastRunPageCount) {
     // Anzahl der zu verarbeitenden Seiten ist zur Laufzeit unbekannt und
     // basiert auf den letzten durchlauf, soll deshalb 100 % nicht überschreiten
     if (progress <= 100) {
-        process.stdout.write(chalk.green(`Info -> ${counter.siteCount}/${lastRunPageCount} (${progress.toFixed(1)}%)\r`));
+        process.stdout.write(chalk.green(`Info: ${counter.siteCount}/${lastRunPageCount} (${progress.toFixed(1)}%)\r`));
     }
 };
 
