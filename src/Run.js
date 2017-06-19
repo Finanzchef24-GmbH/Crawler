@@ -59,7 +59,8 @@ process.on('SIGINT', function () {
 });
 
 if (argv.e === '.xlsx') {
-    console.log('Info: .xlsx wird zzt. noch nicht unterstützt, stattdessen wurde .csv als Standard Dateiformat verwendet.');
+    console.log('Info: .xlsx wird zzt. noch nicht unterstützt, stattdessen wurde .csv' +
+        ' als Standard Dateiformat verwendet.');
 }
 
 let errorFlag = false;
