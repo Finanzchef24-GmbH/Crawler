@@ -53,13 +53,13 @@ if (process.platform === 'win32') {
 
 // STRG C Beendung
 process.on('SIGINT', function () {
-    console.log('Prozess wurde abgebrochen und wird nun beendet und ', argv.f + '.csv', ' gelöscht.');
+    console.log('Info: Prozess wurde abgebrochen, wird nun beendet und ', argv.f + '.csv', ' gelöscht.');
     fs.unlinkSync(argv.file + '.csv');
     process.exit();
 });
 
 if (argv.e === '.xlsx') {
-    console.log('.xlsx wird zzt. noch nicht unterstützt, stattdessen wurde .csv als Standard verwendet.');
+    console.log('Info: .xlsx wird zzt. noch nicht unterstützt, stattdessen wurde .csv als Standard Dateiformat verwendet.');
 }
 
 let errorFlag = false;
@@ -86,7 +86,7 @@ crw.on('drain', function(){
     if (!errorFlag) {
         fs.writeFileSync('prevPageCount', counter.siteCount);
     }
-    console.log('\rFertig. Programm wurde beendet.');
+    console.log('\rInfo: Fertig. Programm wurde beendet.');
 });
 
 function crwCb (error, res, done) {
@@ -112,6 +112,5 @@ function crwCb (error, res, done) {
 }
 
 module.exports = function () {
-    // console.log(crw);
     crw.queue([ 'https://www.finanzchef24.de' ]);
 };
