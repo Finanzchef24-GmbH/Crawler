@@ -37,10 +37,6 @@ const httpResponseValidatorModded = sinon.stub().returns(true);
 
 run.__set__('httpResponseValidator', httpResponseValidatorModded);
 
-const loggerModded = sinon.stub();
-
-run.__set__('logger', loggerModded);
-
 const doneModded = sinon.stub();
 
 const cheeriWriModded = sinon.stub();

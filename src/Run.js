@@ -8,10 +8,20 @@ require('yargonaut')
 const argv = require('yargs')
     .usage('Usage: $0 <command> [options]')
     .locale('de')
-    .example('$0', 'Speichert das Ergebnis als out.csv')
+    .example('$0', 'Speichert das Ergebnis als ausgabe.csv')
+    .example('$0 -s https://www.finanzchef24.de', 'Crawlt https://www.finanzchef24.de')
+    .example('$0 -p 2000', 'Durchsucht maximal 2000 Knoten (Unterseiten)')
     .example('$0 -f resultat', 'Speichert das Ergebnis als resultat.csv')
     .example('$0 -e .xlsx', 'Speichert das Ergebnis als out.xlsx [.xlsx wird noch nicht unterstützt]')
     .example('$0 -f resultat -e .xlsx', 'Speichert das Ergebnis als resultat.xlsx [.xlsx wird noch nicht unterstützt]')
+    .alias('s', 'site')
+    .nargs('s', 1)
+    .describe('s', 'Ziel-Homepage bestimmen')
+    .default('s', 'https://www.finanzchef24.de')
+    .alias('p', 'pagelimit')
+    .nargs('p', 1)
+    .describe('p', 'Pagelimit bestimmen')
+    .default('p', 5000)
     .alias('f', 'file')
     .nargs('f', 1)
     .describe('f', 'Dateiname bestimmen')
@@ -35,9 +45,7 @@ let Crawler = require('crawler');
 let httpResponseValidator = require('./HttpResponseValidator');
 let cheeriWri = require('./CheeriWri');
 let hrefSeeker = require('./HrefSeeker');
-const lastRunPageCountStr = require('fs').readFileSync('prevPageCount').toString();
-const lastRunPageCount = parseInt(lastRunPageCountStr, 10);
-let logger = require('./Logger');
+const urler = require('url');
 
 // Beendung für Windows
 if (process.platform === 'win32') {
@@ -63,12 +71,14 @@ if (argv.e === '.xlsx') {
         ' als Standard Dateiformat verwendet.');
 }
 
-let errorFlag = false;
 let counter = {siteCount: 0};
-let pageLimit = 5000;
+let pageLimit = parseInt(argv.p, 10);
 const visited_pages = new Set();
+const url = urler.parse(argv.s);
+const protocol = url.protocol;
+const hostname = url.hostname;
 
-visited_pages.add('https://www.finanzchef24.de');
+visited_pages.add(argv.s);
 
 let writer = csvWriter({ headers: ['URL', 'TITLE', 'DESCRIPTION', 'H1 TAG', 'META ROBOTS']});
 
@@ -82,11 +92,6 @@ let crw = new Crawler({
 
 crw.on('drain', function(){
     writer.end();
-    // Wenn es ein Absturz gibt, soll die Datei prevPageCount nicht überschrieben werden
-    // andernfalls wird der Anzahl der durchgegangenen hrefs von diesen Lauf eingetragen
-    if (!errorFlag) {
-        fs.writeFileSync('prevPageCount', counter.siteCount);
-    }
     console.log('\rInfo: Fertig. Programm wurde beendet.');
 });
 
@@ -94,24 +99,21 @@ function crwCb (error, res, done) {
     if (counter.siteCount > pageLimit) {
         console.log('Error: Grenze der Seitenanzahl von', pageLimit, 'wurde überschritten.');
         process.exit();
-    } else if (error){
-        errorFlag = true;
+    } else if (error) {
         catcher(error);
     } else if (!httpResponseValidator(res)) {
         counter.siteCount += 1;
-        logger(counter, lastRunPageCount);
     } else {
         counter.siteCount += 1;
-        logger(counter, lastRunPageCount);
         const $ = res.$;
         const calledHref = res.request.uri.href;
 
         cheeriWri(calledHref, writer, $);
-        hrefSeeker(crw, $, visited_pages);
+        hrefSeeker(crw, $, visited_pages, hostname, protocol);
     }
     done();
 }
 
 module.exports = function () {
-    crw.queue([ 'https://www.finanzchef24.de' ]);
+    crw.queue([ argv.s ]);
 };

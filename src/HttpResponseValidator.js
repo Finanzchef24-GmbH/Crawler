@@ -7,8 +7,8 @@ module.exports = function(response) {
     } else if (response.statusCode >= 400) {
         console.log('Warning: HTTP Status Code Fehler', response.statusCode, 'für href', href);
         return false;
+    // Content-Type ist nicht HTML für href
     } else if (response.headers['content-type'].indexOf('html') === -1) {
-        console.log('Warning: Content Type ist nicht HTML für href', href);
         return false;
     } 
     return true;

@@ -1,10 +1,10 @@
-# Marketing-Crawler-Tool [FC-5451]
+# Marketing-Crawler-Tool
 
 [![Linux & Mac Build Status][travis-image]][travis-url]
 [![Dependency Status][david-image]][david-url]
 [![Dev Dependency Status][david-dev-image]][david-dev-url]
 
-Das Tool zieht pro Unterseite von https://www.finanzchef24.de/ folgende Quellcode-Inhalte und speichert es in einer CSV-Datei:
+Das Tool zieht pro Unterseite einer Homepage auf dem selben Domain folgende Quellcode-Inhalte und speichert sie in einer CSV-Datei:
 ```html
 <title> </title>
 <meta name="description" content=" " />
@@ -32,6 +32,8 @@ Optionale Parameter
 * `--help, -h`: Hilfe ausgeben
 * `--extension, -e`: Dateiendung bestimmen [Möglichkeiten: '.csv', '.xlsx'][Standard: '.csv']('.xlsx' wird zur zeit nicht unterstützt)
 * `--file, -f`: Dateiname bestimmen [Standard: 'ausgabe']
+* `--pagelimit, -p`: Pagelimit bestimmen [Standard: 5000](ab 5000 Knoten wird die Suche abgebrochen)
+* `--site, -s`: Ziel-Homepage bestimmen [Standard: 'https://www.finanzchef24.de']
 
 Testen
 

@@ -8,7 +8,8 @@ const hrefSeeker = rewire('../src/HrefSeeker');
 
 const urlObj = {
     hostname: 'www.finanzchef24.de',
-    path: '/path'
+    path: '/path',
+    protocol: 'https'
 };
 let mockedUrler = sinon.stub().returns(urlObj);
 
@@ -45,8 +46,10 @@ describe('HrefSeekerSpec', function () {
                 '<a href="https://www.finanzchef24.de/versicherung/inhaltsversicherung">' +
                 'Inhaltsversicherung</a>';
             const $ = cheerio.load(testdaten);
+            const hostname = 'www.finanzchef24.de';
+            const protocol = 'https';
 
-            hrefSeeker(crw, $, visited_pages);
+            hrefSeeker(crw, $, visited_pages, hostname, protocol);
             expect(crw.queue.callCount).to.eql(5);
             assert.equal('https://www.finanzchef24.de/versicherung',
                 crw.queue.getCall(0).args[0]);
@@ -67,8 +70,10 @@ describe('HrefSeekerSpec', function () {
                 '</li><li>' +
                 '</li><li>';
             const $ = cheerio.load(testdaten);
+            const hostname = 'www.finanzchef24.de';
+            const protocol = 'https';
 
-            hrefSeeker(crw, $, visited_pages);
+            hrefSeeker(crw, $, visited_pages, hostname, protocol);
             expect(crw.queue.callCount).to.eql(0);
         });
         it('crw.queue 4 mal aufgerufen, weil 1 href undefined ist', function () {
@@ -84,31 +89,49 @@ describe('HrefSeekerSpec', function () {
                 '<a href="https://www.finanzchef24.de/versicherung/inhaltsversicherung">' +
                 'Inhaltsversicherung</a>';
             const $ = cheerio.load(testdaten);
+            const hostname = 'www.finanzchef24.de';
+            const protocol = 'https';
 
-            hrefSeeker(crw, $, visited_pages);
+            hrefSeeker(crw, $, visited_pages, hostname, protocol);
             expect(crw.queue.callCount).to.eql(4);
         });
         it('crw.queue mit href ohne #-Teil aufgerufen', function () {
             const testdaten = '<a href="https://www.finanzchef24.de/versicherung#blablabla">Gewerbeversicherung</a>';
             const $ = cheerio.load(testdaten);
+            const hostname = 'www.finanzchef24.de';
+            const protocol = 'https';
 
-            hrefSeeker(crw, $, visited_pages);
+            hrefSeeker(crw, $, visited_pages, hostname, protocol);
             assert.equal('https://www.finanzchef24.de/versicherung', crw.queue.getCall(0).args[0]);
         });
         it('crw.queue 0 mal aufgerufen, weil hostname falsch ist', function () {
             const testdaten = '<a href="https://www.finanzchef24.de/versicherung">Gewerbeversicherung</a>';
             const $ = cheerio.load(testdaten);
+            const hostname = 'www.finanzchef24.de';
+            const protocol = 'https';
 
             urlObj.hostname = 'www.nein.de';
-            hrefSeeker(crw, $, visited_pages);
+            hrefSeeker(crw, $, visited_pages, hostname, protocol);
             expect(crw.queue.callCount).to.eql(0);
         });
         it('crw.queue 0 mal aufgerufen, weil path schon in visited_pages vorhanden ist', function () {
             const testdaten = '<a href="https://www.finanzchef24.de/versicherung">Gewerbeversicherung</a>';
             const $ = cheerio.load(testdaten);
+            const hostname = 'www.finanzchef24.de';
+            const protocol = 'https';
 
             urlObj.path = 'https://www.test.de'; // dieser Pfad ist schon in der HashSet drin, s.O.
-            hrefSeeker(crw, $, visited_pages);
+            hrefSeeker(crw, $, visited_pages, hostname, protocol);
+            expect(crw.queue.callCount).to.eql(0);
+        });
+        it('crw.queue 0 mal aufgerufen, weil protocol falsch ist', function () {
+            const testdaten = '<a href="https://www.finanzchef24.de/versicherung">Gewerbeversicherung</a>';
+            const $ = cheerio.load(testdaten);
+            const hostname = 'www.finanzchef24.de';
+            const protocol = 'https';
+
+            urlObj.protocol = 'http';
+            hrefSeeker(crw, $, visited_pages, hostname, protocol);
             expect(crw.queue.callCount).to.eql(0);
         });
         afterEach(function() {
