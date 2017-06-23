@@ -82,7 +82,7 @@ describe('run', function () {
             expect(hrefSeekerModded.called).to.be.true;
             expect(doneModded.called).to.be.true;
         });
-        it('crwCb() Callback-Funktion wurde verlief ' +
+        it('crwCb() Callback-Funktion verlief ' +
             'ohne Erfolg mit Fehleraufruf', function () {
             crwCb(true, res, doneModded);
             expect(catcherModded.called).to.be.true;

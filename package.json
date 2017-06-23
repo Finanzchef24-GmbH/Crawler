@@ -8,10 +8,9 @@
     "lint": "eslint .",
     "start": "node src/index.js"
   },
-  "author": "",
+  "author": "David Farkas",
   "license": "ISC",
   "dependencies": {
-    "@finanzchef24gmbh/eslint-config-fc24": "https://github.com/Finanzchef24-GmbH/eslint-config-fc24.git",
     "bluebird": "^3.5.0",
     "chalk": "^1.1.3",
     "cheerio": "^0.22.0",
@@ -23,6 +22,7 @@
     "yargs": "^8.0.1"
   },
   "devDependencies": {
+    "@finanzchef24gmbh/eslint-config-fc24": "https://github.com/Finanzchef24-GmbH/eslint-config-fc24.git",
     "chai": "^3.5.0",
     "chai-as-promised": "^6.0.0",
     "eslint": "^3.19.0",

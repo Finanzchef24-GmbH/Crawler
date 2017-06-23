@@ -6,8 +6,10 @@ module.exports = {
     ],
     "env": {
         "node": true,
+        "mocha": true
     },
     "rules": {
         "strict": [2, "never"],
+        "no-unused-expressions": 'off'
     }
 };
