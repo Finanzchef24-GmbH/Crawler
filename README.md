@@ -30,7 +30,6 @@ node src/index.js
 Optionale Parameter
 
 * `--help, -h`: Hilfe ausgeben
-* `--extension, -e`: Dateiendung bestimmen [Möglichkeiten: '.csv', '.xlsx'][Standard: '.csv']('.xlsx' wird zur zeit nicht unterstützt)
 * `--file, -f`: Dateiname bestimmen [Standard: 'ausgabe']
 * `--pagelimit, -p`: Pagelimit bestimmen [Standard: 5000](ab 5000 Knoten wird die Suche abgebrochen)
 * `--site, -s`: Ziel-Homepage bestimmen [Standard: 'https://www.finanzchef24.de']
