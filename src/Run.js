@@ -96,12 +96,14 @@ function crwCb (error, res, done) {
             const calledHref = res.request.uri.href;
 
             cheeriWri(calledHref, writer, $);
-            hrefSeeker(crw, $, visited_pages, hostname, protocol);
+            hrefSeeker(crw, $, visited_pages, hostname, protocol, calledHref);
         }
     }
     done();
 }
 
 module.exports = function () {
-    crw.queue([ argv.s ]);
+    crw.queue([
+        { uri: argv.s, calledHref: null }
+    ]);
 };

@@ -18,6 +18,9 @@ const httpResponse = {
             href: 'https://www.finanzchef24.de/versicherung'
         }
     },
+    options: {
+        calledHref: null
+    },
     headers: {
         'content-type': 'text/html'
     }

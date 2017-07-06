@@ -52,15 +52,15 @@ describe('HrefSeekerSpec', function () {
             hrefSeeker(crw, $, visited_pages, hostname, protocol);
             expect(crw.queue.callCount).to.eql(5);
             assert.equal('https://www.finanzchef24.de/versicherung',
-                crw.queue.getCall(0).args[0]);
+                crw.queue.getCall(0).args[0][0].uri);
             assert.equal('https://www.finanzchef24.de/versicherung/berufshaftpflichtversicherung',
-                crw.queue.getCall(1).args[0]);
+                crw.queue.getCall(1).args[0][0].uri);
             assert.equal('https://www.finanzchef24.de/versicherung/betriebshaftpflichtversicherung',
-                crw.queue.getCall(2).args[0]);
+                crw.queue.getCall(2).args[0][0].uri);
             assert.equal('https://www.finanzchef24.de/versicherung/gewerberechtsschutz',
-                crw.queue.getCall(3).args[0]);
+                crw.queue.getCall(3).args[0][0].uri);
             assert.equal('https://www.finanzchef24.de/versicherung/inhaltsversicherung',
-                crw.queue.getCall(4).args[0]);
+                crw.queue.getCall(4).args[0][0].uri);
         });
         it('crw.queue 0 mal aufgerufen, weil kein href gibt', function () {
             const testdaten =
@@ -102,7 +102,7 @@ describe('HrefSeekerSpec', function () {
             const protocol = 'https';
 
             hrefSeeker(crw, $, visited_pages, hostname, protocol);
-            assert.equal('https://www.finanzchef24.de/versicherung', crw.queue.getCall(0).args[0]);
+            assert.equal('https://www.finanzchef24.de/versicherung', crw.queue.getCall(0).args[0][0].uri);
         });
         it('crw.queue 0 mal aufgerufen, weil hostname falsch ist', function () {
             const testdaten = '<a href="https://www.finanzchef24.de/versicherung">Gewerbeversicherung</a>';

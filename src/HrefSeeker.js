@@ -1,6 +1,6 @@
 const urler = require('url');
 
-module.exports = function(crw, $, visited_pages, hostname, protocol) {
+module.exports = function(crw, $, visited_pages, hostname, protocol, calledHref) {
     $('a').each(function(index, node) {
         const $node = $(node);
         const preHref = $node.attr('href');
@@ -18,11 +18,17 @@ module.exports = function(crw, $, visited_pages, hostname, protocol) {
                     crw.queue(
                         {
                             uri: href,
-                            jQuery: false
+                            jQuery: false,
+                            calledHref
                         }
                     );
                 } else {
-                    crw.queue([ href ]);
+                    crw.queue([
+                        {
+                            uri: href,
+                            calledHref
+                        }
+                    ]);
                 }
             }
         }

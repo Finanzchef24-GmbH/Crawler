@@ -70,7 +70,7 @@ describe('run', function () {
         it('crw.queue() wurde erfolgreich mit richtigen ' +
             'Parameter aufgerufen', function () {
             run();
-            expect(crwModded.queue.firstCall.args[0]).to.eql([ 'https://www.finanzchef24.de' ]);
+            expect(crwModded.queue.firstCall.args[0]).to.eql([{ uri: 'https://www.finanzchef24.de', calledHref: null }]);
             expect(crwModded.queue.called).to.be.true;
         });
         it('crwCb() Callback-Funktion wurde erfolgreich ' +
